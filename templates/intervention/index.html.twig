@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+{% block title %}Liste des interventions{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="toolbar">
+    <a class="btn" href="{{ path('intervention_new') }}">➕ Nouvelle intervention</a>
+
+    <form method="get" class="filter">
+      <select name="technician">
+        <option value="">-- Technicien --</option>
+        {% for t in technicians %}
+          <option value="{{ t }}" {{ currentTechnician==t ? 'selected' : '' }}>{{ t }}</option>
+        {% endfor %}
+      </select>
+
+      <select name="status">
+        <option value="">-- État --</option>
+        <option value="en cours" {{ currentStatus=='en cours' ? 'selected' : '' }}>En cours</option>
+        <option value="validée" {{ currentStatus=='validée' ? 'selected' : '' }}>Validée</option>
+        <option value="terminée" {{ currentStatus=='terminée' ? 'selected' : '' }}>Terminée</option>
+        <option value="annulée" {{ currentStatus=='annulée' ? 'selected' : '' }}>Annulée</option>
+      </select>
+
+      <button class="btn small" type="submit">Filtrer</button>
+    </form>
+  </div>
+
+  <div class="ticket-list">
+    {% for i in interventions %}
+      <div class="ticket">
+        <div class="ticket-header">
+          <span class="ticket-ref">{{ i.reference }}</span>
+          <span class="ticket-status {{ i.status }}">{{ i.status }}</span>
+        </div>
+        <p><strong>Client :</strong> {{ i.firstName }} {{ i.lastName }}</p>
+        <p><strong>Date :</strong> {{ i.scheduledAt ? i.scheduledAt|date('d/m/Y H:i') : '' }}</p>
+        <p><strong>Technicien :</strong> {{ i.technician }}</p>
+        <div class="ticket-actions">
+          <a class="btn small" href="{{ path('intervention_show', {'id': i.id}) }}">👁 Voir</a>
+          <form method="post" action="{{ path('intervention_change_status', {'id': i.id}) }}">
+            <select name="status">
+              <option value="en cours">En cours</option>
+              <option value="validée">Validée</option>
+              <option value="terminée">Terminée</option>
+              <option value="annulée">Annulée</option>
+            </select>
+            <button class="btn small" type="submit">Mettre à jour</button>
+          </form>
+        </div>
+      </div>
+    {% else %}
+      <p>Aucune intervention trouvée.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <script>
+    // redirection automatique après 2s
+    setTimeout(() => {
+      window.location.href = "{{ path('intervention_index') }}";
+    }, 2000);
+  </script>
+
+  <div class="card">
+    <h2>Page introuvable (404)</h2>
+    <p>Vous allez être redirigé automatiquement vers la liste des interventions.</p>
+    <p><a class="btn" href="{{ path('intervention_index') }}">Y aller maintenant</a></p>
+  </div>
+{% endblock %}

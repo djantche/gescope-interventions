@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block title %}Fiche {{ intervention.reference }}{% endblock %}
+{% block body %}
+<div class="container">
+  <div class="card printable">
+    <h2>Fiche d'intervention — {{ intervention.reference }}</h2>
+
+    <div class="ticket-content">
+      <p><strong>Client :</strong> {{ intervention.firstName }} {{ intervention.lastName }}</p>
+      <p><strong>Téléphone :</strong> {{ intervention.phone }}</p>
+      <p><strong>Email :</strong> {{ intervention.email }}</p>
+      <p><strong>Adresse :</strong> {{ intervention.address }}</p>
+      <p><strong>Date :</strong> {{ intervention.scheduledAt|date('d/m/Y H:i') }}</p>
+      <p><strong>Technicien :</strong> {{ intervention.technician }}</p>
+      <p><strong>État :</strong> <span class="ticket-status {{ intervention.status }}">{{ intervention.status }}</span></p>
+
+      <h3>Description</h3>
+      <p>{{ intervention.description }}</p>
+
+      <div class="signature-area">
+        <div class="signature-box">
+          <p>Signature du client</p>
+        </div>
+        <div class="signature-box">
+          <p>Signature du technicien</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="print-actions">
+      <button class="btn" onclick="window.print()">Imprimer</button>
+      <a class="btn ghost" href="{{ path('intervention_index') }}">Retour</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
